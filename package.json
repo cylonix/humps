@@ -1,14 +1,14 @@
 {
   "name": "@cylonix/humps",
-  "version": "2.0.3",
-  "description": "Underscore-to-camelCase converter (and vice versa) for strings and object keys in JavaScript.",
+  "version": "2.0.4",
+  "description": "Forked from humps to support well-known initials. Underscore-to-camelCase converter (and vice versa) for strings and object keys in JavaScript.",
   "main": "humps.js",
   "scripts": {
     "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/domchristie/humps.git"
+    "url": "git://github.com/cylonix/humps.git"
   },
   "keywords": [
     "utils",
@@ -25,7 +25,7 @@
     "mocha": "^2.2.5"
   },
   "bugs": {
-    "url": "https://github.com/domchristie/humps/issues"
+    "url": "https://github.com/cylonix/humps/issues"
   },
-  "homepage": "https://github.com/domchristie/humps"
+  "homepage": "https://github.com/cylonix/humps"
 }
