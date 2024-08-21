@@ -38,11 +38,61 @@
 
   // String conversion methods
 
+  // __BEGIN_CYLONIX_MOD__
+  const allUppercaseWords = [
+    "ACL", "AMQP", "API", "ASCII",
+    "CIDR", "CPU", "CSS",
+    "DB", "DNS",
+    "EOF",
+    "FQDN",
+    "GID", "GUID",
+    "HTML", "HTTP", "HTTPS",
+    "ID", "IP", "IPAM", "IPv4", "IPv6",
+    "JSON",
+    "PC",
+    "QPS",
+    "RAM", "RPC", "RTP",
+    "SIP", "SLA", "SMTP", "SQL", "SSH",
+    "TCP", "TLS", "TS", "TTL",
+    "UDP", "UI", "UID", "URI", "URL", "UTF8", "UUID",
+    "VM",
+    "XML", "XMPP", "XSRF", "XSS"
+  ];
+  const allUppercaseWordsMap = new Map()
+  allUppercaseWords.forEach((v, i, _) => {
+    allUppercaseWordsMap.set(v.toLowerCase(), v)
+  });
+
+  const camelizeWithInitialism = function(string) {
+    const camelized = camelize(string);
+    const words = camelized.split(/(?=[A-Z])/);
+    words.forEach((v, i, _) => {
+        const upper = allUppercaseWordsMap.get(v.toLowerCase())
+        if (i > 0 && upper) {
+            words[i] = upper
+        }
+    });
+    return words.join('');
+  };
+
+  const revertInitialism = function(string) {
+    string = string.replaceAll( /([A-Z]+)/g, function(match, s){
+      if (s && s.length > 1) {
+        s = s.toLowerCase()
+        s = s.substring(0,1).toUpperCase() + s.substring(1)
+      }
+      return s
+    })
+    return string
+  };
+
+  // __END_CYLONIX_MOD__
+
   var separateWords = function(string, options) {
+    string = revertInitialism(string) // __CYLONIX_MOD__
     options = options || {};
     var separator = options.separator || '_';
     var split = options.split || /(?=[A-Z])/;
-
     return string.split(split).join(separator);
   };
 
@@ -113,11 +163,12 @@
 
   var humps = {
     camelize: camelize,
+    camelizeWithInitialism: camelizeWithInitialism, // __CYLONIX_MOD__
     decamelize: decamelize,
     pascalize: pascalize,
     depascalize: decamelize,
     camelizeKeys: function(object, options) {
-      return _processKeys(_processor(camelize, options), object);
+      return _processKeys(_processor(camelizeWithInitialism, options), object); // __CYLONIX_MOD__
     },
     decamelizeKeys: function(object, options) {
       return _processKeys(_processor(decamelize, options), object, options);

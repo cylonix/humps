@@ -323,4 +323,16 @@ describe('humps', function() {
       assert.equal(humps.pascalize('hello world'), 'HelloWorld');
     });
   });
+  // __BEGIN_CYLONIX_MOD__
+  describe('.camelizeWithInitialism', function() {
+    it('converts underscored strings to camelCase with initialism', function() {
+      assert.equal(humps.camelizeWithInitialism('user_id'), 'userID');
+    });
+  });
+  describe('.decamelizeWithInitialism', function() {
+    it('converts camelCase with initialism to underscore strings', function() {
+      assert.equal(humps.decamelize('userID2Abc'), 'user_id2_abc');
+    });
+  });
+ // __END_CYLONIX_MOD__
 });
