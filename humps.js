@@ -39,6 +39,7 @@
   // String conversion methods
 
   // __BEGIN_CYLONIX_MOD__
+  // Initialisms sorted by descending length.
   const allUppercaseWords = [
     "ACL", "AMQP", "API", "ASCII",
     "CIDR", "CPU", "CSS",
@@ -57,7 +58,7 @@
     "UDP", "UI", "UID", "URI", "URL", "UTF8", "UUID",
     "VM",
     "XML", "XMPP", "XSRF", "XSS"
-  ];
+  ].sort((a, b) => a.length < b.length);
   const allUppercaseWordsMap = new Map()
   allUppercaseWords.forEach((v, i, _) => {
     allUppercaseWordsMap.set(v.toLowerCase(), v)
@@ -67,23 +68,32 @@
     const camelized = camelize(string);
     const words = camelized.split(/(?=[A-Z])/);
     words.forEach((v, i, _) => {
-        const upper = allUppercaseWordsMap.get(v.toLowerCase())
+      const upper = allUppercaseWordsMap.get(v.toLowerCase());
         if (i > 0 && upper) {
-            words[i] = upper
+          words[i] = upper;
         }
     });
     return words.join('');
   };
 
-  const revertInitialism = function(string) {
-    string = string.replaceAll( /([A-Z]+)/g, function(match, s){
-      if (s && s.length > 1) {
-        s = s.toLowerCase()
-        s = s.substring(0,1).toUpperCase() + s.substring(1)
+  const revertInitialism = function (input) {
+    const re = /([A-Z][A-Z]+)[^A-Z]*/g;
+    let results = input.matchAll(re);
+    let result = results.next()
+    while (!result.done) {
+      const v = result.value;
+      for (w of allUppercaseWords) {
+        if (v[0] === w || v[1].startsWith(w)) {
+          let s = w.toLowerCase();
+          s = s.substring(0, 1).toUpperCase() + s.substring(1);
+          input = input.replace(w, s);
+          results = input.matchAll(re);
+          break;
+        }
       }
-      return s
-    })
-    return string
+      result = results.next();
+    }
+    return input;
   };
 
   // __END_CYLONIX_MOD__

@@ -332,6 +332,7 @@ describe('humps', function() {
   describe('.decamelizeWithInitialism', function() {
     it('converts camelCase with initialism to underscore strings', function() {
       assert.equal(humps.decamelize('userID2Abc'), 'user_id2_abc');
+      assert.equal(humps.decamelize('JSONID2IPv4IPAbc'), 'json_id2_ipv4_ip_abc');
     });
   });
  // __END_CYLONIX_MOD__
