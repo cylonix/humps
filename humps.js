@@ -82,7 +82,7 @@
     let result = results.next()
     while (!result.done) {
       const v = result.value;
-      for (w of allUppercaseWords) {
+      for (let w of allUppercaseWords) {
         if (v[0] === w || v[1].startsWith(w)) {
           let s = w.toLowerCase();
           s = s.substring(0, 1).toUpperCase() + s.substring(1);
