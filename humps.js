@@ -113,8 +113,13 @@
     string = string.replace(/[\-_\s]+(.)?/g, function(match, chr) {
       return chr ? chr.toUpperCase() : '';
     });
-    // Ensure 1st char is always lowercase
-    return string.substr(0, 1).toLowerCase() + string.substr(1);
+    // __BEGIN_CYLONIX_MOD__
+    // Ensure 1st word is always lowercase
+    //return string.substr(0, 1).toLowerCase() + string.substr(1);
+    return string.replace(/(^[A-Z]+)/, function (match, chr) {
+      return chr ? chr.toLowerCase() : '';
+    });
+    // __END_CYLONIX_MOD__
   };
 
   var pascalize = function(string) {
